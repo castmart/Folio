@@ -34,3 +34,9 @@ To go one step ahead, this project structure will help support two different typ
 Web Servlet Stack and the Reactive Stack. This way, it can be proved that the election on technologies can be delayed following this
 Architectural principles.
 
+
+Phase 1. Use RestControllers
+Phase 2. Use Functional Endpoints
+Phase 3. Use Reactive Stack 
+Pahse 4. Use JPA
+

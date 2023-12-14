@@ -10,7 +10,7 @@ data class Ticket(
     val ownerName: String,
     val ownerPhoneNumber: String,
     val ownerEmail: String,
-    val approxCompletionDate: OffsetDateTime,
+    val completionDate: OffsetDateTime,
     var status: TicketStatus // com.castmart.core.entity.TicketStatus is an enum representing different statuses
 )
 

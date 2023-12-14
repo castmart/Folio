@@ -6,13 +6,13 @@ import com.castmart.core.port.TicketRepository
 import com.castmart.core.usecase.CreateTicketUseCase
 import com.castmart.core.usecase.CreateTicketUseCaseImpl
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.assertThrows
 import java.time.OffsetDateTime
 import java.util.UUID
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 class CreateTicketUserCaseTest: DescribeSpec({
     val ticketRepoMock = mockk<TicketRepository>()
@@ -62,12 +62,11 @@ class CreateTicketUserCaseTest: DescribeSpec({
 
             val response = useCase.createTicket(request)
 
-            assertNotNull(response.id)
-            assertEquals(request.ticketNumber, response.ticketNumber)
-            assertEquals(request.approxCompletionDate, response.approxCompletionDate)
+            response.id shouldNotBe null
+            request.ticketNumber shouldBeEqual  response.ticketNumber
+            request.approxCompletionDate shouldBeEqual response.approxCompletionDate
         }
 
-//        it ("Correctly sets the ticket status")
     }
 
 })

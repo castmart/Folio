@@ -8,7 +8,7 @@ import java.util.UUID
 
 interface CreateTicketUseCase {
 
-    fun createTicket(request: CreateTicketUseCase.Request): CreateTicketUseCase.Response
+    fun createTicket(request: Request): Response
 
     data class Request(
         val ticketNumber: String,
@@ -38,7 +38,7 @@ class CreateTicketUseCaseImpl(
             ownerName = request.ownerName,
             ownerPhoneNumber = request.ownerPhoneNumber,
             ownerEmail = request.ownerEmail,
-            approxCompletionDate = request.approxCompletionDate,
+            completionDate = request.approxCompletionDate,
             status = TicketStatus.IN_PROGRESS
         )
         // Save in the repository
@@ -47,7 +47,7 @@ class CreateTicketUseCaseImpl(
         return CreateTicketUseCase.Response(
             id = dbResponse.id,
             ticketNumber = dbResponse.ticketNumber,
-            approxCompletionDate = dbResponse.approxCompletionDate
+            approxCompletionDate = dbResponse.completionDate
         )
     }
 

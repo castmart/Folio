@@ -26,7 +26,7 @@ class TicketRepositoryTest: DescribeSpec({
                 ownerName = "",
                 ownerPhoneNumber = "",
                 ownerEmail = "",
-                approxCompletionDate = OffsetDateTime.now(ZoneOffset.UTC),
+                completionDate = OffsetDateTime.now(ZoneOffset.UTC),
                 status = TicketStatus.IN_PROGRESS
             )
 
