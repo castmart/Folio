@@ -14,15 +14,8 @@ subprojects {
         mavenCentral()
     }
 }
-ext {
 
-    val springBootDataJPA = "org.springframework.boot:spring-boot-starter-data-jpa"
-    val springBootWeb = "org.springframework.boot:spring-boot-starter-web"
-    val springBooTest = "org.springframework.boot:spring-boot-starter-test"
-    val springBootDependencyManagementVersion = "3.2.0"
-    val springBootVersion = "3.2.0"
 
-}
 
 repositories {
     mavenCentral()
@@ -39,7 +32,3 @@ tasks.test {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
-//
-//application {
-//    mainClass.set("MainKt")
-//}

@@ -1,0 +1,8 @@
+[versions]
+kotestVersion = "5.7.2"
+mockkVersion = "1.13.8"
+
+[libraries]
+kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestVersion" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
