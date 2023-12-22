@@ -7,7 +7,6 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 interface CreateTicketUseCase {
-
     fun createTicket(request: Request): Response
 
     data class Request(
@@ -16,39 +15,39 @@ interface CreateTicketUseCase {
         val ownerName: String,
         val ownerPhoneNumber: String,
         val ownerEmail: String,
-        val approxCompletionDate: OffsetDateTime
+        val approxCompletionDate: OffsetDateTime,
     )
+
     data class Response(
         val id: UUID,
         val ticketNumber: String,
-        val approxCompletionDate: OffsetDateTime
+        val approxCompletionDate: OffsetDateTime,
     )
 }
 
 class CreateTicketUseCaseImpl(
-    private val repository: TicketRepository
-    ): CreateTicketUseCase {
-
+    private val repository: TicketRepository,
+) : CreateTicketUseCase {
     override fun createTicket(request: CreateTicketUseCase.Request): CreateTicketUseCase.Response {
         // Validate input data.
-        val ticket = Ticket(
-            id = UUID.randomUUID(),
-            ticketNumber = request.ticketNumber,
-            shoeDescription = request.shoeDescription,
-            ownerName = request.ownerName,
-            ownerPhoneNumber = request.ownerPhoneNumber,
-            ownerEmail = request.ownerEmail,
-            completionDate = request.approxCompletionDate,
-            status = TicketStatus.IN_PROGRESS
-        )
+        val ticket =
+            Ticket(
+                id = UUID.randomUUID(),
+                ticketNumber = request.ticketNumber,
+                shoeDescription = request.shoeDescription,
+                ownerName = request.ownerName,
+                ownerPhoneNumber = request.ownerPhoneNumber,
+                ownerEmail = request.ownerEmail,
+                completionDate = request.approxCompletionDate,
+                status = TicketStatus.IN_PROGRESS,
+            )
         // Save in the repository
         val dbResponse = this.repository.save(ticket)
         // Return response
         return CreateTicketUseCase.Response(
             id = dbResponse.id,
             ticketNumber = dbResponse.ticketNumber,
-            approxCompletionDate = dbResponse.completionDate
+            approxCompletionDate = dbResponse.completionDate,
         )
     }
-
 }

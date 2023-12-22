@@ -5,7 +5,6 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 interface GetATicketUseCase {
-
     fun getTicket(ticketId: UUID): Response
 
     data class Response(
@@ -16,12 +15,11 @@ interface GetATicketUseCase {
         val ownerPhoneNumber: String,
         val ownerEmail: String,
         val approxCompletionDate: OffsetDateTime,
-        val status: String
+        val status: String,
     )
 }
 
-class GetATicketUseCaseImpl(private val ticketRepository: TicketRepository): GetATicketUseCase {
-
+class GetATicketUseCaseImpl(private val ticketRepository: TicketRepository) : GetATicketUseCase {
     override fun getTicket(ticketId: UUID): GetATicketUseCase.Response {
         val ticket = ticketRepository.get(ticketId)
 
@@ -33,7 +31,7 @@ class GetATicketUseCaseImpl(private val ticketRepository: TicketRepository): Get
             ticket.ownerPhoneNumber,
             ticket.ownerEmail,
             ticket.completionDate,
-            ticket.status.toString()
+            ticket.status.toString(),
         )
     }
 }

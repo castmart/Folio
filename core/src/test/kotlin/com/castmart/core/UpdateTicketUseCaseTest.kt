@@ -13,7 +13,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.assertThrows
 import java.time.OffsetDateTime
-import java.util.*
+import java.util.UUID
 
 class UpdateTicketUseCaseTest : DescribeSpec({
     val ticketRepoMock = mockk<TicketRepository>()
@@ -25,41 +25,44 @@ class UpdateTicketUseCaseTest : DescribeSpec({
 
         every {
             ticketRepoMock.get(any())
-        } returns Ticket(
-            id = ticketId,
-            ticketNumber = "00001",
-            shoeDescription = "description",
-            ownerName = "name",
-            ownerEmail = "email_original",
-            ownerPhoneNumber = "12345678",
-            completionDate = OffsetDateTime.now().minusDays(3),
-            status = TicketStatus.IN_PROGRESS
-        )
+        } returns
+            Ticket(
+                id = ticketId,
+                ticketNumber = "00001",
+                shoeDescription = "description",
+                ownerName = "name",
+                ownerEmail = "email_original",
+                ownerPhoneNumber = "12345678",
+                completionDate = OffsetDateTime.now().minusDays(3),
+                status = TicketStatus.IN_PROGRESS,
+            )
     }
 
     describe("Ticket Update use case") {
         it("Saves correctly the ticket and returns response") {
-            val request = UpdateTicketUseCase.Request(
-                id = UUID.randomUUID(),
-                ticketNumber = "1",
-                shoeDescription = "description",
-                ownerName = "name",
-                ownerEmail = "email@",
-                ownerPhoneNumber = "",
-                approxCompletionDate = OffsetDateTime.now().plusDays(3),
-                updateStatus = "READY_FOR_PICKUP"
-            )
+            val request =
+                UpdateTicketUseCase.Request(
+                    id = UUID.randomUUID(),
+                    ticketNumber = "1",
+                    shoeDescription = "description",
+                    ownerName = "name",
+                    ownerEmail = "email@",
+                    ownerPhoneNumber = "",
+                    approxCompletionDate = OffsetDateTime.now().plusDays(3),
+                    updateStatus = "READY_FOR_PICKUP",
+                )
 
-            val ticketResponse = Ticket(
-                id = request.id,
-                ticketNumber = request.ticketNumber,
-                shoeDescription = request.shoeDescription,
-                ownerName = request.ownerName,
-                ownerEmail = request.ownerEmail,
-                ownerPhoneNumber = request.ownerPhoneNumber,
-                completionDate = request.approxCompletionDate,
-                status = TicketStatus.READY_FOR_PICKUP
-            )
+            val ticketResponse =
+                Ticket(
+                    id = request.id,
+                    ticketNumber = request.ticketNumber,
+                    shoeDescription = request.shoeDescription,
+                    ownerName = request.ownerName,
+                    ownerEmail = request.ownerEmail,
+                    ownerPhoneNumber = request.ownerPhoneNumber,
+                    completionDate = request.approxCompletionDate,
+                    status = TicketStatus.READY_FOR_PICKUP,
+                )
 
             every {
                 ticketRepoMock.update(any())
@@ -74,39 +77,42 @@ class UpdateTicketUseCaseTest : DescribeSpec({
             val ticketId = UUID.randomUUID()
             every {
                 ticketRepoMock.get(any())
-            } returns Ticket(
-                id = ticketId,
-                ticketNumber = "00001",
-                shoeDescription = "description",
-                ownerName = "name",
-                ownerEmail = "email_original",
-                ownerPhoneNumber = "12345678",
-                completionDate = OffsetDateTime.now().minusDays(3),
-                status = TicketStatus.IN_PROGRESS
-            )
+            } returns
+                Ticket(
+                    id = ticketId,
+                    ticketNumber = "00001",
+                    shoeDescription = "description",
+                    ownerName = "name",
+                    ownerEmail = "email_original",
+                    ownerPhoneNumber = "12345678",
+                    completionDate = OffsetDateTime.now().minusDays(3),
+                    status = TicketStatus.IN_PROGRESS,
+                )
 
             // Try to update cpmpletion date to be older than original
-            val request = UpdateTicketUseCase.Request(
-                id = ticketId,
-                ticketNumber = "1",
-                shoeDescription = "description",
-                ownerName = "name",
-                ownerEmail = "email@",
-                ownerPhoneNumber = "",
-                approxCompletionDate = OffsetDateTime.now().plusDays(2),
-                updateStatus = "READY_FOR_PICKUP"
-            )
+            val request =
+                UpdateTicketUseCase.Request(
+                    id = ticketId,
+                    ticketNumber = "1",
+                    shoeDescription = "description",
+                    ownerName = "name",
+                    ownerEmail = "email@",
+                    ownerPhoneNumber = "",
+                    approxCompletionDate = OffsetDateTime.now().plusDays(2),
+                    updateStatus = "READY_FOR_PICKUP",
+                )
 
-            val ticketResponse = Ticket(
-                id = request.id,
-                ticketNumber = request.ticketNumber,
-                shoeDescription = request.shoeDescription,
-                ownerName = request.ownerName,
-                ownerEmail = request.ownerEmail,
-                ownerPhoneNumber = request.ownerPhoneNumber,
-                completionDate = request.approxCompletionDate,
-                status = TicketStatus.READY_FOR_PICKUP
-            )
+            val ticketResponse =
+                Ticket(
+                    id = request.id,
+                    ticketNumber = request.ticketNumber,
+                    shoeDescription = request.shoeDescription,
+                    ownerName = request.ownerName,
+                    ownerEmail = request.ownerEmail,
+                    ownerPhoneNumber = request.ownerPhoneNumber,
+                    completionDate = request.approxCompletionDate,
+                    status = TicketStatus.READY_FOR_PICKUP,
+                )
 
             every {
                 ticketRepoMock.update(any())
@@ -128,8 +134,8 @@ class UpdateTicketUseCaseTest : DescribeSpec({
                         ownerEmail = "email@",
                         ownerPhoneNumber = "",
                         approxCompletionDate = OffsetDateTime.now(),
-                        updateStatus = "INVALID_STATUS"
-                    )
+                        updateStatus = "INVALID_STATUS",
+                    ),
                 )
             }
             verify(exactly = 0) {

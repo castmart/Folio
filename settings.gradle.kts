@@ -1,4 +1,3 @@
 rootProject.name = "Folio"
 
-include("core", "details","configuration")
-
+include("core", "details", "configuration")

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.assertThrows
 import java.time.OffsetDateTime
 import java.util.UUID
 
-class CreateTicketUserCaseTest: DescribeSpec({
+class CreateTicketUserCaseTest : DescribeSpec({
     val ticketRepoMock = mockk<TicketRepository>()
     val useCase = CreateTicketUseCaseImpl(ticketRepoMock)
 
@@ -22,51 +22,50 @@ class CreateTicketUserCaseTest: DescribeSpec({
         it("throws and exception when invalid entity props") {
 
             every { ticketRepoMock.save(any()) } throws Exception()
-            val request = CreateTicketUseCase.Request(
-                "0001",
-                "New Shoe never seen before, a name larger than column definition will throw an error",
-                "Fulanito",
-                "de Tal",
-                "email@correo.com",
-                OffsetDateTime.now().plusDays(2)
-            )
+            val request =
+                CreateTicketUseCase.Request(
+                    "0001",
+                    "New Shoe never seen before, a name larger than column definition will throw an error",
+                    "Fulanito",
+                    "de Tal",
+                    "email@correo.com",
+                    OffsetDateTime.now().plusDays(2),
+                )
 
             assertThrows<Exception> {
                 useCase.createTicket(request)
             }
-
         }
 
-        it ("saves correctly the ticket and returns the corresponding id") {
+        it("saves correctly the ticket and returns the corresponding id") {
             val date = OffsetDateTime.now().plusDays(2)
-            val request = CreateTicketUseCase.Request(
-                "0001",
-                "New Shoe never seen before, a name larger than column definition will throw an error",
-                "Fulanito",
-                "de Tal",
-                "email@correo.com",
-                date
-            )
+            val request =
+                CreateTicketUseCase.Request(
+                    "0001",
+                    "New Shoe never seen before, a name larger than column definition will throw an error",
+                    "Fulanito",
+                    "de Tal",
+                    "email@correo.com",
+                    date,
+                )
             val dbID = UUID.randomUUID()
-            every { ticketRepoMock.save(any()) } returns Ticket(
-                dbID,
-                "0001",
-                "New Shoe never seen before",
-                "Fulanito",
-                "de Tal",
-                "email@correo.com",
-                date,
-                TicketStatus.IN_PROGRESS
-            )
-
+            every { ticketRepoMock.save(any()) } returns
+                Ticket(
+                    dbID,
+                    "0001",
+                    "New Shoe never seen before",
+                    "Fulanito",
+                    "de Tal",
+                    "email@correo.com",
+                    date,
+                    TicketStatus.IN_PROGRESS,
+                )
 
             val response = useCase.createTicket(request)
 
             response.id shouldNotBe null
-            request.ticketNumber shouldBeEqual  response.ticketNumber
+            request.ticketNumber shouldBeEqual response.ticketNumber
             request.approxCompletionDate shouldBeEqual response.approxCompletionDate
         }
-
     }
-
 })

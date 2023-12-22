@@ -7,7 +7,6 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 interface UpdateTicketUseCase {
-
     fun updateTicket(ticketRequest: Request): Response
 
     data class Request(
@@ -18,7 +17,7 @@ interface UpdateTicketUseCase {
         val ownerPhoneNumber: String,
         val ownerEmail: String,
         val approxCompletionDate: OffsetDateTime,
-        val updateStatus: String
+        val updateStatus: String,
     )
 
     data class Response(
@@ -29,24 +28,30 @@ interface UpdateTicketUseCase {
         val ownerPhoneNumber: String,
         val ownerEmail: String,
         val approxCompletionDate: OffsetDateTime,
-        val status: String
+        val status: String,
     )
 }
 
-class UpdateTicketUseCaseImpl(private val ticketRepository: TicketRepository): UpdateTicketUseCase {
+class UpdateTicketUseCaseImpl(private val ticketRepository: TicketRepository) : UpdateTicketUseCase {
     override fun updateTicket(ticketRequest: UpdateTicketUseCase.Request): UpdateTicketUseCase.Response {
         val originalTicket = ticketRepository.get(ticketRequest.id)
 
-        val ticketToEdit = Ticket(
-            id = ticketRequest.id,
-            ticketNumber = ticketRequest.ticketNumber,
-            shoeDescription = ticketRequest.shoeDescription,
-            ownerName = ticketRequest.ownerName,
-            ownerEmail = ticketRequest.ownerEmail,
-            ownerPhoneNumber = ticketRequest.ownerPhoneNumber,
-            completionDate = validateOriginalIsOlder(originalTicket.completionDate, ticketRequest.approxCompletionDate), // Validate it is in the future if not finished yet
-            status = TicketStatus.valueOf(ticketRequest.updateStatus) // This can throw an exception
-        )
+        val ticketToEdit =
+            Ticket(
+                id = ticketRequest.id,
+                ticketNumber = ticketRequest.ticketNumber,
+                shoeDescription = ticketRequest.shoeDescription,
+                ownerName = ticketRequest.ownerName,
+                ownerEmail = ticketRequest.ownerEmail,
+                ownerPhoneNumber = ticketRequest.ownerPhoneNumber,
+                completionDate =
+                    validateOriginalIsOlder(
+                        originalTicket.completionDate,
+                        ticketRequest.approxCompletionDate,
+                    ),
+                // Validate it is in the future if not finished yet
+                status = TicketStatus.valueOf(ticketRequest.updateStatus), // This can throw an exception
+            )
         val updatedTicket = ticketRepository.update(ticketToEdit)
         return UpdateTicketUseCase.Response(
             id = updatedTicket.id,
@@ -56,11 +61,14 @@ class UpdateTicketUseCaseImpl(private val ticketRepository: TicketRepository): U
             ownerPhoneNumber = updatedTicket.ownerPhoneNumber,
             ownerEmail = updatedTicket.ownerEmail,
             approxCompletionDate = updatedTicket.completionDate,
-            status = updatedTicket.status.toString()
+            status = updatedTicket.status.toString(),
         )
     }
 
-    private fun validateOriginalIsOlder(original: OffsetDateTime, toBeSet: OffsetDateTime): OffsetDateTime {
+    private fun validateOriginalIsOlder(
+        original: OffsetDateTime,
+        toBeSet: OffsetDateTime,
+    ): OffsetDateTime {
         return if (original.isBefore(toBeSet)) {
             toBeSet
         } else {

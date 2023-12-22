@@ -1,7 +1,7 @@
 package com.castmart.core.entity
 
 import java.time.OffsetDateTime
-import java.util.*
+import java.util.UUID
 
 data class Ticket(
     val id: UUID,
@@ -11,7 +11,7 @@ data class Ticket(
     val ownerPhoneNumber: String,
     val ownerEmail: String,
     val completionDate: OffsetDateTime,
-    var status: TicketStatus // com.castmart.core.entity.TicketStatus is an enum representing different statuses
+    var status: TicketStatus,
 )
 
 // Enum to represent different statuses of a ticket

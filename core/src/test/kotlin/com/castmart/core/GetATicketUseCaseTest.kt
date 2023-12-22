@@ -11,9 +11,9 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.assertThrows
 import java.time.OffsetDateTime
-import java.util.*
+import java.util.UUID
 
-class GetATicketUseCaseTest: DescribeSpec({
+class GetATicketUseCaseTest : DescribeSpec({
     val ticketRepositoryMock = mockk<TicketRepository>()
     val useCase = GetATicketUseCaseImpl(ticketRepositoryMock)
 
@@ -27,16 +27,17 @@ class GetATicketUseCaseTest: DescribeSpec({
 
         it("The ticket is found") {
             val ticketId = UUID.randomUUID()
-            val ticket = Ticket(
-                id = ticketId,
-                ticketNumber = "0001",
-                ownerName = "John Connor",
-                ownerPhoneNumber = "110010101",
-                ownerEmail = "terminator_target@gmail.com",
-                shoeDescription = "N-Jordan from 90's",
-                completionDate = OffsetDateTime.now().plusDays(7),
-                status = TicketStatus.IN_PROGRESS
-            )
+            val ticket =
+                Ticket(
+                    id = ticketId,
+                    ticketNumber = "0001",
+                    ownerName = "John Connor",
+                    ownerPhoneNumber = "110010101",
+                    ownerEmail = "terminator_target@gmail.com",
+                    shoeDescription = "N-Jordan from 90's",
+                    completionDate = OffsetDateTime.now().plusDays(7),
+                    status = TicketStatus.IN_PROGRESS,
+                )
             every {
                 ticketRepositoryMock.get(ticketId)
             } returns ticket
