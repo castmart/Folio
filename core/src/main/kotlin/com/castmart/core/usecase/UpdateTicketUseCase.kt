@@ -50,7 +50,7 @@ class UpdateTicketUseCaseImpl(private val ticketRepository: TicketRepository) : 
                         ticketRequest.approxCompletionDate,
                     ),
                 // Validate it is in the future if not finished yet
-                status = TicketStatus.valueOf(ticketRequest.updateStatus), // This can throw an exception
+                status = TicketStatus.valueOf(ticketRequest.updateStatus),
             )
         val updatedTicket = ticketRepository.update(ticketToEdit)
         return UpdateTicketUseCase.Response(

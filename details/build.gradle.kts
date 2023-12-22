@@ -8,7 +8,8 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(project(":core"))
-    implementation("org.springframework:spring-jdbc:6.0.7")
+    api(libs.spring.jdbc)
+    api(libs.spring.mvc)
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest)
     testImplementation(libs.kotest.assertions)

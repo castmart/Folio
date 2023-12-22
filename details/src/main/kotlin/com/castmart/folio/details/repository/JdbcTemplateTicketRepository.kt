@@ -1,4 +1,4 @@
-package com.castmart.folio.details
+package com.castmart.folio.details.repository
 
 import com.castmart.core.entity.Ticket
 import com.castmart.core.entity.TicketStatus

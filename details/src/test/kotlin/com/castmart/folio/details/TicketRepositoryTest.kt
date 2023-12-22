@@ -2,6 +2,7 @@ package com.castmart.folio.details
 
 import com.castmart.core.entity.Ticket
 import com.castmart.core.entity.TicketStatus
+import com.castmart.folio.details.repository.JdbcTemplateTicketRepository
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import io.mockk.every
