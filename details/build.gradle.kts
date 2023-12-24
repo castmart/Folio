@@ -8,8 +8,12 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(project(":core"))
-    api(libs.spring.jdbc)
-    api(libs.spring.mvc)
+    api(libs.spring.jdbc) {
+        because("Should be provided in the configurations module through spring boot")
+    }
+    api(libs.spring.mvc) {
+        because("Should be provided in the configurations module through spring boot")
+    }
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest)
     testImplementation(libs.kotest.assertions)
