@@ -74,12 +74,11 @@ class UpdateTicketUseCaseTest : DescribeSpec({
         }
 
         it("Validates Completion date update") {
-            val ticketId = UUID.randomUUID()
             every {
                 ticketRepoMock.get(any())
             } returns
                 Ticket(
-                    id = ticketId,
+                    id = UUID.randomUUID(),
                     ticketNumber = "00001",
                     shoeDescription = "description",
                     ownerName = "name",

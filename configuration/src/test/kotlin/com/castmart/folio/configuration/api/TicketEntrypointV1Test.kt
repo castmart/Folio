@@ -1,6 +1,6 @@
-package com.castmart.folio.details.entrypoint
+package com.castmart.folio.configuration.api
 
-import com.castmart.folio.details.TicketHttpHandlerMocks
+import com.castmart.folio.details.entrypoint.TicketRestEntrypointV1
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.spring.SpringExtension
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,8 +12,10 @@ import java.util.UUID
 
 @WebMvcTest(controllers = [TicketRestEntrypointV1::class])
 @ContextConfiguration(classes = [TicketHttpHandlerMocks::class, TicketRestEntrypointV1::class])
-class TicketHttpHandler(@Autowired val mockMvc: MockMvc,) : DescribeSpec(){
-    init{
+class TicketEntrypointV1Test(
+    @Autowired val mockMvc: MockMvc,
+) : DescribeSpec() {
+    init {
         extensions(SpringExtension)
         val v1Path = "/ticket/v1"
 
@@ -21,12 +23,12 @@ class TicketHttpHandler(@Autowired val mockMvc: MockMvc,) : DescribeSpec(){
 
             it("Returns a ticket DTO v1 when the ticket is found") {
                 println("initializing test")
-                mockMvc.get("${v1Path}/${UUID.randomUUID()}") {
+                mockMvc.get("$v1Path/${UUID.randomUUID()}") {
                     header("Accept", "*/*")
                 }
                     .andExpect {
                         status { isOk() }
-    //                    content { jsonPath("$.id", assertNotNull()) }
+                        //                    content { jsonPath("$.id", assertNotNull()) }
                     }
             }
             it("Returns 404 when ticket not found") {

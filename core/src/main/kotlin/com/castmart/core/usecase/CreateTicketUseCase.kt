@@ -21,7 +21,12 @@ interface CreateTicketUseCase {
     data class Response(
         val id: UUID,
         val ticketNumber: String,
+        val ownerName: String,
+        val ownerPhoneNumber: String,
+        val ownerEmail: String,
+        val shoeDescription: String,
         val approxCompletionDate: OffsetDateTime,
+        val status: TicketStatus,
     )
 }
 
@@ -48,6 +53,11 @@ class CreateTicketUseCaseImpl(
             id = dbResponse.id,
             ticketNumber = dbResponse.ticketNumber,
             approxCompletionDate = dbResponse.completionDate,
+            ownerName = "1",
+            ownerEmail = "1",
+            ownerPhoneNumber = "1",
+            shoeDescription = "Shoe Description",
+            status = TicketStatus.IN_PROGRESS,
         )
     }
 }

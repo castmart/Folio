@@ -51,7 +51,7 @@ class GetATicketUseCaseTest : DescribeSpec({
             returnedTicket.ownerPhoneNumber shouldBeEqual ticket.ownerPhoneNumber
             returnedTicket.shoeDescription shouldBeEqual ticket.shoeDescription
             returnedTicket.approxCompletionDate shouldBeEqual ticket.completionDate
-            returnedTicket.status shouldBeEqual ticket.status.name
+            returnedTicket.status shouldBeEqual ticket.status
         }
     }
 })

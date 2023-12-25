@@ -1,15 +1,17 @@
 package com.castmart.folio.details.entrypoint
 
-import com.castmart.core.entity.TicketStatus
 import com.castmart.core.usecase.CreateTicketUseCase
 import com.castmart.core.usecase.GetATicketUseCase
 import com.castmart.core.usecase.UpdateTicketUseCase
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.time.OffsetDateTime
 import java.util.UUID
 
 @RestController
@@ -23,16 +25,56 @@ class TicketRestEntrypointV1(
     fun getTicketById(
         @PathVariable ticketId: UUID,
     ): ResponseEntity<TicketDTOV1> {
-        val ticketDTO = TicketDTOV1(
-            id = UUID.randomUUID(),
-            ticketNumber = "00001",
-            ownerPhoneNumber = "1",
-            ownerName = "John Connor",
-            ownerEmail = "terminator.target@gmail.com",
-            completionDate = OffsetDateTime.now().plusDays(7),
-            status = TicketStatus.IN_PROGRESS,
-            shoeDescription = "A shoe",
+        val ticket = getATicketUseCase.getTicket(ticketId)
+        return ResponseEntity.ok(TicketDTOV1.fromGetResponse(ticket))
+    }
+
+    @PutMapping
+    fun createTicket(
+        @RequestBody dtoV1: TicketDTOV1,
+    ): ResponseEntity<TicketDTOV1> {
+        val createResponse =
+            createTicketUseCase.createTicket(
+                CreateTicketUseCase.Request(
+                    ticketNumber = dtoV1.ticketNumber,
+                    ownerName = dtoV1.ownerName,
+                    ownerEmail = dtoV1.ownerEmail,
+                    ownerPhoneNumber = dtoV1.ownerPhoneNumber,
+                    shoeDescription = dtoV1.shoeDescription,
+                    approxCompletionDate = dtoV1.completionDate,
+                ),
+            )
+        return ResponseEntity.ok(
+            TicketDTOV1.fromCreateResponse(createResponse),
         )
-        return ResponseEntity.ok(ticketDTO)
+    }
+
+    @PostMapping
+    fun updateTicket(
+        @RequestBody dtoV1: TicketDTOV1,
+    ): ResponseEntity<TicketDTOV1> {
+        val updateResponse =
+            updateTicketUseCase.updateTicket(
+                ticketRequest =
+                    UpdateTicketUseCase.Request(
+                        id = dtoV1.id,
+                        ticketNumber = dtoV1.ticketNumber,
+                        ownerName = dtoV1.ownerName,
+                        ownerEmail = dtoV1.ownerEmail,
+                        ownerPhoneNumber = dtoV1.ownerPhoneNumber,
+                        shoeDescription = dtoV1.shoeDescription,
+                        approxCompletionDate = dtoV1.completionDate,
+                        updateStatus = dtoV1.status,
+                    ),
+            )
+
+        return ResponseEntity.ok(
+            TicketDTOV1.fromUpdateResponse(updateResponse),
+        )
+    }
+
+    @ExceptionHandler
+    fun noSuchElementException(exception: NoSuchElementException): ResponseEntity<Any> {
+        return ResponseEntity.notFound().build()
     }
 }

@@ -28,7 +28,7 @@ interface UpdateTicketUseCase {
         val ownerPhoneNumber: String,
         val ownerEmail: String,
         val approxCompletionDate: OffsetDateTime,
-        val status: String,
+        val status: TicketStatus,
     )
 }
 
@@ -61,7 +61,7 @@ class UpdateTicketUseCaseImpl(private val ticketRepository: TicketRepository) : 
             ownerPhoneNumber = updatedTicket.ownerPhoneNumber,
             ownerEmail = updatedTicket.ownerEmail,
             approxCompletionDate = updatedTicket.completionDate,
-            status = updatedTicket.status.toString(),
+            status = updatedTicket.status,
         )
     }
 

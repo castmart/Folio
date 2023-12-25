@@ -1,5 +1,6 @@
 package com.castmart.core.usecase
 
+import com.castmart.core.entity.TicketStatus
 import com.castmart.core.port.TicketRepository
 import java.time.OffsetDateTime
 import java.util.UUID
@@ -15,7 +16,7 @@ interface GetATicketUseCase {
         val ownerPhoneNumber: String,
         val ownerEmail: String,
         val approxCompletionDate: OffsetDateTime,
-        val status: String,
+        val status: TicketStatus,
     )
 }
 
@@ -31,7 +32,7 @@ class GetATicketUseCaseImpl(private val ticketRepository: TicketRepository) : Ge
             ticket.ownerPhoneNumber,
             ticket.ownerEmail,
             ticket.completionDate,
-            ticket.status.toString(),
+            ticket.status,
         )
     }
 }
