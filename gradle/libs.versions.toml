@@ -1,5 +1,6 @@
 [versions]
 kotestVersion = "5.7.2"
+kotestSpring = "1.1.3"
 mockkVersion = "1.13.8"
 springVersion = "6.1.2"
 springBootVersion = "3.2.0"
@@ -7,7 +8,14 @@ springBootVersion = "3.2.0"
 [libraries]
 kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestVersion" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
+kotest-spring-ext = { module = "io.kotest.extensions:kotest-extensions-spring", version.ref = "kotestSpring" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
+spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-jdbc = { module = "org.springframework:spring-jdbc" }
 spring-mvc = { module = "org.springframework:spring-webmvc" }
-
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core" }
+jackson-annotations = {module = "com.fasterxml.jackson.core:jackson-annotations" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
+jackson-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version = "2.13.1" }
+jakarta-servlet = { module = "jakarta.servlet:jakarta.servlet-api" }
