@@ -73,7 +73,7 @@ class TicketRestEntrypointV1(
         )
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NoSuchElementException::class)
     fun noSuchElementException(exception: NoSuchElementException): ResponseEntity<Any> {
         return ResponseEntity.notFound().build()
     }

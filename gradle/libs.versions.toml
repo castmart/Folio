@@ -10,6 +10,8 @@ kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestVersi
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
 kotest-spring-ext = { module = "io.kotest.extensions:kotest-extensions-spring", version.ref = "kotestSpring" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
+spring-boot-mvc = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-jdbc = { module = "org.springframework:spring-jdbc" }
 spring-mvc = { module = "org.springframework:spring-webmvc" }

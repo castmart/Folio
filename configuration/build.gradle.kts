@@ -1,13 +1,16 @@
 plugins {
     kotlin("jvm") version "1.9.20"
+    kotlin("plugin.spring") version "1.9.22"
 }
 
 dependencies {
     implementation(project(":core"))
     implementation(project(":details"))
 
-    // Spring boot mvc
-    // Spring boot jdbc
+    implementation(libs.spring.boot.mvc)
+    implementation(libs.spring.boot.jdbc)
+
+    implementation("org.postgresql:postgresql:42.7.1")
 
     implementation(libs.jakarta.servlet)
     implementation(libs.jackson.core)

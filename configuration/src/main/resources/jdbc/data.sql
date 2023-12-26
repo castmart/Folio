@@ -1,0 +1,1 @@
+insert into ticket(id, ticket_number, owner_name, owner_email, owner_phone_number, shoe_description, completion_date, state) values('545ADB53-D7DF-4F8D-81C3-4234EB4204C3', 'F0001', 'John Connor', 'terminator.target@gmail.com', '1010010111', 'a shoe, Salud!', '1999-12-31 23:59:59.9')

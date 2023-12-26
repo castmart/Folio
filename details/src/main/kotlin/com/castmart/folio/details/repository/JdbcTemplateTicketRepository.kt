@@ -4,18 +4,19 @@ import com.castmart.core.entity.Ticket
 import com.castmart.core.entity.TicketStatus
 import com.castmart.core.port.TicketRepository
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import java.lang.Exception
 import java.sql.ResultSet
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.UUID
 
-class JdbcTemplateTicketRepository(private val databaseTicketRepository: JdbcTemplate) : TicketRepository {
+class JdbcTemplateTicketRepository(private val databaseTicketRepository: NamedParameterJdbcTemplate) : TicketRepository {
     override fun get(id: UUID): Ticket {
         val ticketResult: List<Ticket> =
             databaseTicketRepository.query(
                 "SELECT id, ticket_number, owner_email, owner_phone_number, owner_email, status, " +
-                    "shoe_description, completion_date where id=?",
+                    "shoe_description, completion_date from public.ticket where id=?",
                 {
                         it: ResultSet, _: Int ->
                     Ticket(
@@ -33,7 +34,7 @@ class JdbcTemplateTicketRepository(private val databaseTicketRepository: JdbcTem
                             ),
                     )
                 },
-                arrayOf(id.toString()),
+                arrayOf(id),
             )
 
         return ticketResult.first()

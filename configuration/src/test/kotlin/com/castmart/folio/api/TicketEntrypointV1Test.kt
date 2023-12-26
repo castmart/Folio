@@ -1,4 +1,4 @@
-package com.castmart.folio.configuration.api
+package com.castmart.folio.api
 
 import com.castmart.folio.details.entrypoint.TicketRestEntrypointV1
 import io.kotest.core.spec.style.DescribeSpec
