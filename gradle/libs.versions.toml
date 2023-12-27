@@ -10,6 +10,8 @@ postgresJdbcVersion = "42.7.1"
 kotest = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestVersion" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
 kotest-spring-ext = { module = "io.kotest.extensions:kotest-extensions-spring", version.ref = "kotestSpring" }
+kotest-testcontainers = {module = "io.kotest.extensions:kotest-extensions-testcontainers", version = "2.0.2" }
+testcontainers-postgres = { module = "org.testcontainers:postgresql", version = "1.19.3" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 spring-boot-mvc = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc" }
