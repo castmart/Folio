@@ -30,7 +30,7 @@ The Sub-modules:
 - **Configuration**: In this modules we have all the configuration code that wires everything together.
 
 
-To go one step ahead, this project structure will help support two different type of Web Stacks in spring boot, the classical
+To go one step ahead, this project structure will help support two different types of Web Stacks in spring boot, the classical
 Web Servlet Stack and the Reactive Stack. This way, it can be proved that the election on technologies can be delayed following this
 Architectural principles.
 
@@ -38,5 +38,30 @@ Architectural principles.
 Phase 1. Use RestControllers
 Phase 2. Use Functional Endpoints
 Phase 3. Use Reactive Stack 
-Pahse 4. Use JPA
+Phase 4. Use JPA
+
+## Test Strategy
+- We make unit tests for all subprojects (core, details and configuration).
+  - This will use kotest and mokk to keep it simple but more adapted to the language.
+- We create another subproject called integration-tests just to execute the integration tests.
+  - Here it will be used spring-test (specifically MockMvc), kotest and TestContainers.
+- We create another subproject called e2e-tests for end-to-end tests.
+  - Here it will be used swagger/Open API
+
+## How to run the Application
+
+1. Run the local database with  `docker-compose up`
+2. Execute the spring boot app with `./gradlew bootRun`
+3. To create a ticket execute the curl command: 
+``` bash 
+curl -X PUT http://localhost:8080/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"93BB0038-CB9D-433F-B830-FA627DE32F76", "ticketNumber":"1", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2023-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
+```
+4. To get the ticket: 
+```bash 
+curl http://localhost:8080/ticket/v1/[ticket id]
+```
+5. To update the ticket: 
+``` bash
+curl -X POST http://localhost:8080/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"d669e186-4c10-4d4b-bd28-9d8edc2a4508", "ticketNumber":"2", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2024-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
+```
 
