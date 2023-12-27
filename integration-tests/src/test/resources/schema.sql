@@ -1,5 +1,4 @@
-create database folio;
-\c folio
+
 create table ticket(
     id uuid PRIMARY KEY,
     ticket_number varchar not null,
