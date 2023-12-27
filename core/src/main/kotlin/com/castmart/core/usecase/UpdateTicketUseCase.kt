@@ -72,7 +72,7 @@ class UpdateTicketUseCaseImpl(private val ticketRepository: TicketRepository) : 
         return if (original.isBefore(toBeSet)) {
             toBeSet
         } else {
-            throw IllegalArgumentException("Invalid Date: New Date is older that the new one.")
+            throw IllegalArgumentException("Invalid Date: New Date is older.")
         }
     }
 }

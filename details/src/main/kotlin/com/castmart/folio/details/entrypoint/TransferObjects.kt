@@ -6,6 +6,7 @@ import com.castmart.core.usecase.UpdateTicketUseCase
 import java.time.OffsetDateTime
 import java.util.UUID
 
+// {"id":"93BB0038-CB9D-433F-B830-FA627DE32F76", "ticketNumber":"1", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2023-12-31 00:00:00", "status": "IN_PROGRESS" }
 data class TicketDTOV1(
     val id: UUID,
     val ticketNumber: String,
@@ -61,4 +62,4 @@ data class TicketDTOV1(
     }
 }
 
-data class TicketListDTOV1(val tickets: List<TicketDTOV1>)
+data class ErrorDto(val statusCode: Int, val message: String)

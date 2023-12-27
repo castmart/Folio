@@ -3,6 +3,7 @@ package com.castmart.folio.details.entrypoint
 import com.castmart.core.usecase.CreateTicketUseCase
 import com.castmart.core.usecase.GetATicketUseCase
 import com.castmart.core.usecase.UpdateTicketUseCase
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
@@ -29,12 +30,11 @@ class TicketRestEntrypointV1(
         return ResponseEntity.ok(TicketDTOV1.fromGetResponse(ticket))
     }
 
-    @PutMapping
+    @PutMapping(consumes = ["application/json"], produces = ["application/json"])
     fun createTicket(
         @RequestBody dtoV1: TicketDTOV1,
     ): ResponseEntity<TicketDTOV1> {
-        val createResponse =
-            createTicketUseCase.createTicket(
+        val createResponse = createTicketUseCase.createTicket(
                 CreateTicketUseCase.Request(
                     ticketNumber = dtoV1.ticketNumber,
                     ownerName = dtoV1.ownerName,
@@ -74,7 +74,16 @@ class TicketRestEntrypointV1(
     }
 
     @ExceptionHandler(NoSuchElementException::class)
-    fun noSuchElementException(exception: NoSuchElementException): ResponseEntity<Any> {
+    fun noSuchElementException(): ResponseEntity<ErrorDto> {
         return ResponseEntity.notFound().build()
+    }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun illegalArgumentException(exception: IllegalArgumentException): ResponseEntity<ErrorDto> {
+        return ResponseEntity.badRequest().body(
+            ErrorDto(
+                HttpStatus.BAD_REQUEST.value(), exception.message.orEmpty()
+            )
+        )
     }
 }

@@ -18,7 +18,7 @@ open class TicketHttpHandlerMocks {
 //    open fun createTicketUseCase() = mockk<CreateTicketUseCase>()
 
     @Bean
-    open fun objectMapper(): ObjectMapper {
+    fun objectMapper(): ObjectMapper {
         val objectMapper = ObjectMapper()
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         objectMapper.registerModule(JavaTimeModule())
