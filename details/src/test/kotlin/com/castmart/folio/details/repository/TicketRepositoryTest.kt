@@ -9,18 +9,20 @@ import io.mockk.mockk
 import org.junit.jupiter.api.assertThrows
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.UUID
 import kotlin.NoSuchElementException
 
 class TicketRepositoryTest : DescribeSpec({
-    val jdbcTemplate = mockk<JdbcTemplate>()
+    val jdbcTemplate = mockk<NamedParameterJdbcTemplate>()
     val repository = JdbcTemplateTicketRepository(jdbcTemplate)
 
     describe("JdbcTicketRepository") {
         it("Throws exception when saving ticket in the database fails") {
-            every { jdbcTemplate.update(any<String>()) } returns 0
+            every { jdbcTemplate.update(any<String>(), any<MapSqlParameterSource>()) } returns 0
 
             val ticket =
                 Ticket(
@@ -54,7 +56,7 @@ class TicketRepositoryTest : DescribeSpec({
                     status = TicketStatus.IN_PROGRESS,
                 )
 
-            every { jdbcTemplate.update(any(), any(), any(), any(), any(), any(), any(), any(), any()) } returns 1
+            every { jdbcTemplate.update(any<String>(), any<MapSqlParameterSource>()) } returns 1
 
             val result = repository.save(ticket)
 
@@ -81,7 +83,7 @@ class TicketRepositoryTest : DescribeSpec({
                     status = TicketStatus.IN_PROGRESS,
                 )
 
-            every { jdbcTemplate.update(any(), any(), any(), any(), any(), any(), any(), any()) } returns 1
+            every { jdbcTemplate.update(any<String>(), any<MapSqlParameterSource>()) } returns 1
 
             val result = repository.update(ticket)
 
@@ -96,7 +98,7 @@ class TicketRepositoryTest : DescribeSpec({
         }
 
         it("Get a ticket by id throws Not such element exception for non-existing ticket") {
-            every { jdbcTemplate.query(any(), any<RowMapper<Ticket>>(), any()) } returns emptyList<Ticket>()
+            every { jdbcTemplate.query(any(), any<MapSqlParameterSource>(), any<RowMapper<Ticket>>()) } returns emptyList<Ticket>()
 
             assertThrows<NoSuchElementException> {
                 repository.get(UUID.randomUUID())
@@ -116,7 +118,7 @@ class TicketRepositoryTest : DescribeSpec({
                     status = TicketStatus.IN_PROGRESS,
                 )
 
-            every { jdbcTemplate.query(any(), any<RowMapper<Ticket>>(), any()) } returns listOf(ticket)
+            every { jdbcTemplate.query(any(), any<MapSqlParameterSource>(), any<RowMapper<Ticket>>()) } returns listOf(ticket)
 
             val result = repository.get(ticket.id)
 
