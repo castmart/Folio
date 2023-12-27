@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.20"
     kotlin("plugin.spring") version "1.9.22"
+    id("org.springframework.boot") version "3.2.1"
 }
 
 dependencies {
@@ -9,15 +10,16 @@ dependencies {
 
     implementation(libs.spring.boot.mvc)
     implementation(libs.spring.boot.jdbc)
-
-    implementation("org.postgresql:postgresql:42.7.1")
+    implementation(libs.postgres.jdbc)
 
     implementation(libs.jakarta.servlet)
     implementation(libs.jackson.core)
     implementation(libs.jackson.annotations)
     implementation(libs.jackson.databind)
     implementation(libs.jackson.jsr310)
-    implementation(libs.jackson.module.kotlin)
+    implementation(libs.jackson.module.kotlin) {
+        because("It helps supporting the json encoding with kotlin data classes")
+    }
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest)
@@ -30,3 +32,4 @@ dependencies {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
+
