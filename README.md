@@ -41,12 +41,13 @@ Phase 3. Use Reactive Stack
 Phase 4. Use JPA
 
 ## Test Strategy
-- We make unit tests for all subprojects (core, details and configuration).
+- We make unit tests for core and details subprojects.
   - This will use kotest and mokk to keep it simple but more adapted to the language.
 - We create another subproject called integration-tests just to execute the integration tests.
-  - Here it will be used spring-test (specifically MockMvc), kotest and TestContainers.
-- We create another subproject called e2e-tests for end-to-end tests.
-  - Here it will be used swagger/Open API
+  - Here it will be used kotest and TestContainers.
+- Finally, end-to-end tests will live in the configuration sub-project because it is the part of the system that wires everything up.
+  - Here it will be used TestContainers to create the DB.
+  - We will rely on Mock MVC (this in not properly e2e but is used for convenience)
 
 ## How to run the Application
 
