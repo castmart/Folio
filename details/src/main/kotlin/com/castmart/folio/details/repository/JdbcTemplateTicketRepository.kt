@@ -18,7 +18,8 @@ class JdbcTemplateTicketRepository(private val databaseTicketRepository: NamedPa
         val ticketResult: List<Ticket> =
             databaseTicketRepository.query(
                 "SELECT id, ticket_number, owner_name, owner_email, owner_phone_number, owner_email, status, " +
-                    "shoe_description, completion_date from public.ticket where id=:id", parameters
+                    "shoe_description, completion_date from public.ticket where id=:id",
+                parameters,
             ) { it: ResultSet, _: Int ->
                 Ticket(
                     id = UUID.fromString(it.getString("id")),
@@ -29,10 +30,10 @@ class JdbcTemplateTicketRepository(private val databaseTicketRepository: NamedPa
                     ownerName = it.getString("owner_name"),
                     status = TicketStatus.valueOf(it.getString("status")),
                     completionDate =
-                    OffsetDateTime.of(
-                        it.getTimestamp("completion_date").toLocalDateTime(),
-                        ZoneOffset.UTC,
-                    ),
+                        OffsetDateTime.of(
+                            it.getTimestamp("completion_date").toLocalDateTime(),
+                            ZoneOffset.UTC,
+                        ),
                 )
             }
 
@@ -49,9 +50,13 @@ class JdbcTemplateTicketRepository(private val databaseTicketRepository: NamedPa
         parameters.addValue("status", ticket.status.name)
         parameters.addValue("description", ticket.shoeDescription)
         parameters.addValue("date", ticket.completionDate)
-        val success =databaseTicketRepository.update(
-            "insert into ticket(id, ticket_number, owner_name, owner_email, owner_phone_number, status, shoe_description, completion_date) " +
-                    "values (:id,:ticketNumber,:name,:email,:phoneNumber,:status,:description,:date)", parameters)
+        val success =
+            databaseTicketRepository.update(
+                "insert into ticket(id, ticket_number, owner_name, owner_email, owner_phone_number, status, " +
+                    "shoe_description, completion_date) " +
+                    "values (:id,:ticketNumber,:name,:email,:phoneNumber,:status,:description,:date)",
+                parameters,
+            )
         if (success == 0) {
             throw Exception("Could not create ticket in the database")
         }
@@ -70,13 +75,14 @@ class JdbcTemplateTicketRepository(private val databaseTicketRepository: NamedPa
         parameters.addValue("description", ticket.shoeDescription)
         parameters.addValue("date", ticket.completionDate)
 
-        val success = databaseTicketRepository.update(
+        val success =
+            databaseTicketRepository.update(
                 """
                     |update ticket set ticket_number=:ticketNumber, owner_email=:email, owner_name=:name,
                     |owner_phone_number=:phoneNumber, status=:status, shoe_description=:description, 
                     |completion_date=:date where id=:id
                 """.trimMargin(),
-                parameters
+                parameters,
             )
         if (success == 0) {
             throw Exception("Could not update ticket in the database")

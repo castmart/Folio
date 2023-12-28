@@ -34,7 +34,8 @@ class TicketRestEntrypointV1(
     fun createTicket(
         @RequestBody dtoV1: TicketDTOV1,
     ): ResponseEntity<TicketDTOV1> {
-        val createResponse = createTicketUseCase.createTicket(
+        val createResponse =
+            createTicketUseCase.createTicket(
                 CreateTicketUseCase.Request(
                     ticketNumber = dtoV1.ticketNumber,
                     ownerName = dtoV1.ownerName,
@@ -82,8 +83,9 @@ class TicketRestEntrypointV1(
     fun illegalArgumentException(exception: IllegalArgumentException): ResponseEntity<ErrorDto> {
         return ResponseEntity.badRequest().body(
             ErrorDto(
-                HttpStatus.BAD_REQUEST.value(), exception.message.orEmpty()
-            )
+                HttpStatus.BAD_REQUEST.value(),
+                exception.message.orEmpty(),
+            ),
         )
     }
 }

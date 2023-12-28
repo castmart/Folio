@@ -10,16 +10,20 @@ dependencies {
     implementation(project(":details"))
 
     testImplementation(kotlin("test"))
-    testImplementation(libs.mockk)
     testImplementation(libs.kotest)
-    testImplementation(libs.spring.test)
     testImplementation(libs.postgres.jdbc)
     testImplementation(libs.kotest.assertions)
-    testImplementation(libs.kotest.spring.ext)
     testImplementation(libs.kotest.testcontainers)
     testImplementation(libs.testcontainers.postgres)
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }

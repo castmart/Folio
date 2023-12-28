@@ -15,13 +15,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import javax.sql.DataSource
 
 @Configuration
 class UseCaseBeans {
-
     @Bean
     fun objectMapper(): ObjectMapper {
         val objectMapper = ObjectMapper()
@@ -49,7 +47,11 @@ class UseCaseBeans {
     fun updateTicketUseCase(ticketRepository: TicketRepository): UpdateTicketUseCase = UpdateTicketUseCaseImpl(ticketRepository)
 
     @Bean
-    fun entrypoint(getUseCase: GetATicketUseCase, createTicketUseCase: CreateTicketUseCase, updateTicketUseCase: UpdateTicketUseCase): TicketRestEntrypointV1 {
+    fun entrypoint(
+        getUseCase: GetATicketUseCase,
+        createTicketUseCase: CreateTicketUseCase,
+        updateTicketUseCase: UpdateTicketUseCase,
+    ): TicketRestEntrypointV1 {
         return TicketRestEntrypointV1(createTicketUseCase, updateTicketUseCase, getUseCase)
     }
 }
