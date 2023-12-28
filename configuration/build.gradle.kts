@@ -27,6 +27,8 @@ dependencies {
     testImplementation(libs.kotest.spring.ext)
     testImplementation(libs.mockk)
     testImplementation(libs.spring.test)
+    testImplementation(libs.kotest.testcontainers)
+    testImplementation(libs.testcontainers.postgres)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

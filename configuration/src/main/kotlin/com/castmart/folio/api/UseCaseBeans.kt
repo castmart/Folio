@@ -46,12 +46,4 @@ class UseCaseBeans {
     @Bean
     fun updateTicketUseCase(ticketRepository: TicketRepository): UpdateTicketUseCase = UpdateTicketUseCaseImpl(ticketRepository)
 
-    @Bean
-    fun entrypoint(
-        getUseCase: GetATicketUseCase,
-        createTicketUseCase: CreateTicketUseCase,
-        updateTicketUseCase: UpdateTicketUseCase,
-    ): TicketRestEntrypointV1 {
-        return TicketRestEntrypointV1(createTicketUseCase, updateTicketUseCase, getUseCase)
-    }
 }
