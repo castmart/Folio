@@ -38,10 +38,10 @@ Web Servlet Stack and the Reactive Stack. This way, it can be proved that the el
 Architectural principles.
 
 
-Phase 1. Use RestControllers
-Phase 2. Use Functional Endpoints
-Phase 3. Use Reactive Stack 
-Phase 4. Use JPA
+#### Phase 1. Use RestControllers
+#### Phase 2. Use Functional Endpoints
+#### Phase 3. Use Reactive Stack 
+#### Phase 4. Use JPA
 
 ## Test Strategy
 - We make unit tests for core and details subprojects.
