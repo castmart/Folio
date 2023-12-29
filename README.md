@@ -1,4 +1,7 @@
 # Folio (Clean Architecture Sample Project)
+
+![Tests Workflow](https://github.com/castmart/Folio/workflows/test/badge.svg)
+
 Sample project using Clean Architecture. This project is a sample ticket generator system. Which covers the use cases: 
 
  - As Worker Create a new Ticket
