@@ -43,11 +43,14 @@ Phase 4. Use JPA
 ## Test Strategy
 - We make unit tests for core and details subprojects.
   - This will use kotest and mokk to keep it simple but more adapted to the language.
+  - To run these tests: `make unit-tests`
 - We create another subproject called integration-tests just to execute the integration tests.
   - Here it will be used kotest and TestContainers.
+  - To run these tests: `make integration-tests`
 - Finally, end-to-end tests will live in the configuration sub-project because it is the part of the system that wires everything up.
   - Here it will be used TestContainers to create the DB.
   - We will rely on Mock MVC (this in not properly e2e but is used for convenience)
+  - To run these tests: `make e2e-tests`
 
 ## How to run the Application
 
