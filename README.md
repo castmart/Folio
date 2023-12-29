@@ -1,6 +1,6 @@
 # Folio (Clean Architecture Sample Project)
 
-![Tests Workflow](https://github.com/castmart/Folio/workflows/test/badge.svg)
+[![Tests Workflow](https://github.com/castmart/Folio/actions/workflows/test.yaml/badge.svg)](https://github.com/castmart/Folio/actions/workflows/test.yaml)
 
 Sample project using Clean Architecture. This project is a sample ticket generator system. Which covers the use cases: 
 

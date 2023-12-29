@@ -12,7 +12,7 @@ lint-code:
 
 .PHONY: unit-tests
 unit-tests:
-	./gradlew :core:test & ./gradlew :details:test
+	./gradlew :core:test :details:test
 
 .PHONY: integration-tests
 	./gradlew :integration-tests:test
