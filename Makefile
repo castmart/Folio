@@ -6,6 +6,9 @@ test:
 format-code:
 	./gradlew ktlintFormat
 
+.PHONY: lint-code
+lint-code:
+	./gradlew ktlintCheck
 
 .PHONY: unit-tests
 unit-tests:

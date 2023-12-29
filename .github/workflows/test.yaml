@@ -18,6 +18,9 @@ jobs:
         with:
           java-version: '17'
 
+      - name: Conde Lint
+        run: make lint-code
+
       - name: Unit Tests
         run: make unit-tests
 
