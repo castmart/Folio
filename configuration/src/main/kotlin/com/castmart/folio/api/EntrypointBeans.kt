@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class EntrypointBeans {
-
     @Bean
     fun entrypoint(
         getUseCase: GetATicketUseCase,

@@ -7,7 +7,6 @@ import com.castmart.core.usecase.GetATicketUseCase
 import com.castmart.core.usecase.GetATicketUseCaseImpl
 import com.castmart.core.usecase.UpdateTicketUseCase
 import com.castmart.core.usecase.UpdateTicketUseCaseImpl
-import com.castmart.folio.details.entrypoint.TicketRestEntrypointV1
 import com.castmart.folio.details.repository.JdbcTemplateTicketRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -45,5 +44,4 @@ class UseCaseBeans {
 
     @Bean
     fun updateTicketUseCase(ticketRepository: TicketRepository): UpdateTicketUseCase = UpdateTicketUseCaseImpl(ticketRepository)
-
 }
