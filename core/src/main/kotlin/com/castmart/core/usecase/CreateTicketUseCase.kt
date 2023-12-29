@@ -53,10 +53,10 @@ class CreateTicketUseCaseImpl(
             id = dbResponse.id,
             ticketNumber = dbResponse.ticketNumber,
             approxCompletionDate = dbResponse.completionDate,
-            ownerName = "1",
-            ownerEmail = "1",
-            ownerPhoneNumber = "1",
-            shoeDescription = "Shoe Description",
+            ownerName = dbResponse.ownerName,
+            ownerEmail = dbResponse.ownerEmail,
+            ownerPhoneNumber = dbResponse.ownerPhoneNumber,
+            shoeDescription = dbResponse.shoeDescription,
             status = TicketStatus.IN_PROGRESS,
         )
     }
