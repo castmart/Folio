@@ -25,12 +25,15 @@ as Bob Martin states, the dependencies in this architecture should point inward 
 The structure of the project is based on gradle submodules which will help separating the "Policy" of the Application 
 (Entities, Business and Application Rules) from the "details" (Frameworks, I/O devices and Databases).
 
-The Sub-modules:
+Application Sub-modules:
 - **Core**: Here we define the use cases (enterprise rules and business rules). For convenience here we also define the "Interface adapters".
 
 - **Details**: Here are defined he entry points and the data providers (f.e. HTTP handlers and DB)
 
 - **Configuration**: In this modules we have all the configuration code that wires everything together.
+
+Tests Sub-modules:
+- **integration-tests**: This module only contain tests for the repositories and entrypoints.
 
 
 To go one step ahead, this project structure will help support two different types of Web Stacks in spring boot, the classical
@@ -38,12 +41,9 @@ Web Servlet Stack and the Reactive Stack. This way, it can be proved that the el
 Architectural principles.
 
 
-#### Phase 1. Use RestControllers
-#### Phase 2. Use Functional Endpoints
-#### Phase 3. Use Reactive Stack 
-#### Phase 4. Use JPA
+## Phase 1. Use RestControllers and JdbcTemplate
 
-## Test Strategy
+### Test Strategy
 - We make unit tests for core and details subprojects.
   - This will use kotest and mokk to keep it simple but more adapted to the language.
   - To run these tests: `make unit-tests`
@@ -55,7 +55,7 @@ Architectural principles.
   - We will rely on Mock MVC (this in not properly e2e but is used for convenience)
   - To run these tests: `make e2e-tests`
 
-## How to run the Application
+### How to run the Application
 
 1. Run the local database with  `docker-compose up`
 2. Execute the spring boot app with `./gradlew bootRun`
@@ -72,3 +72,6 @@ curl http://localhost:8080/ticket/v1/[ticket id]
 curl -X POST http://localhost:8080/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"d669e186-4c10-4d4b-bd28-9d8edc2a4508", "ticketNumber":"2", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2024-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
 ```
 
+#### Phase 2. Use Functional Endpoints
+#### Phase 3. Use Reactive Stack
+#### Phase 4. Use JPA
