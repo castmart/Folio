@@ -17,7 +17,6 @@ class TicketRestFunctionEntrypointV1(
     private val updateTicketUseCase: UpdateTicketUseCase,
     private val getATicketUseCase: GetATicketUseCase,
 ) {
-
     fun getTicketById(request: ServerRequest): ServerResponse {
         val ticketId = UUID.fromString(request.pathVariable("ticketId"))
         return getATicketUseCase.getTicket(ticketId).let {
@@ -49,16 +48,16 @@ class TicketRestFunctionEntrypointV1(
         val updateResponse =
             updateTicketUseCase.updateTicket(
                 ticketRequest =
-                UpdateTicketUseCase.Request(
-                    id = dtoV1.id,
-                    ticketNumber = dtoV1.ticketNumber,
-                    ownerName = dtoV1.ownerName,
-                    ownerEmail = dtoV1.ownerEmail,
-                    ownerPhoneNumber = dtoV1.ownerPhoneNumber,
-                    shoeDescription = dtoV1.shoeDescription,
-                    approxCompletionDate = dtoV1.completionDate,
-                    updateStatus = dtoV1.status,
-                ),
+                    UpdateTicketUseCase.Request(
+                        id = dtoV1.id,
+                        ticketNumber = dtoV1.ticketNumber,
+                        ownerName = dtoV1.ownerName,
+                        ownerEmail = dtoV1.ownerEmail,
+                        ownerPhoneNumber = dtoV1.ownerPhoneNumber,
+                        shoeDescription = dtoV1.shoeDescription,
+                        approxCompletionDate = dtoV1.completionDate,
+                        updateStatus = dtoV1.status,
+                    ),
             )
 
         return updateResponse.let {
