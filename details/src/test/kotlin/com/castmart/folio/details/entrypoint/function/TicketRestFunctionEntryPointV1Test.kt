@@ -80,5 +80,51 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                 }
             }
         }
+
+
+        describe("Create ticket entrypoint (functional endpoint)") {
+            it("Creates a ticket returns the correct response and code ticket ") {
+                val requestDTOV1 =
+                    TicketDTOV1(
+                        id = UUID.randomUUID(),
+                        ticketNumber = "1",
+                        ownerName = "John Connor",
+                        ownerEmail = "terminator.target@gmail.com",
+                        ownerPhoneNumber = "1",
+                        shoeDescription = "A shoe",
+                        completionDate = OffsetDateTime.now().plusDays(3),
+                        status = "null",
+                    )
+
+                val responseObject =
+                    CreateTicketUseCase.Response(
+                        id = UUID.randomUUID(),
+                        ticketNumber = "1",
+                        ownerName = "John Connor",
+                        ownerEmail = "terminator.target@gmail.com",
+                        ownerPhoneNumber = "1",
+                        shoeDescription = "A shoe",
+                        approxCompletionDate = requestDTOV1.completionDate,
+                        status = TicketStatus.IN_PROGRESS,
+                    )
+
+                every {
+                    createUseCase.createTicket(any())
+                } returns responseObject
+
+                val response = entrypoint.createTicket(requestDTOV1)
+
+                response.statusCode shouldBe HttpStatusCode.valueOf(200)
+                val body = response.body!!
+                body.id shouldNotBe null
+                body.ticketNumber shouldBe requestDTOV1.ticketNumber
+                body.ownerName shouldBe requestDTOV1.ownerName
+                body.ownerEmail shouldBe requestDTOV1.ownerEmail
+                body.ownerPhoneNumber shouldBe requestDTOV1.ownerPhoneNumber
+                body.shoeDescription shouldBe requestDTOV1.shoeDescription
+                body.completionDate shouldBe requestDTOV1.completionDate
+                body.status shouldBe TicketStatus.IN_PROGRESS.name
+            }
+        }
     }
 }
