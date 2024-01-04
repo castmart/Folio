@@ -81,7 +81,6 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
             }
         }
 
-
         describe("Create ticket entrypoint (functional endpoint)") {
             it("Creates a ticket returns the correct response and code ticket ") {
                 val requestDTOV1 =
@@ -112,10 +111,63 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                     createUseCase.createTicket(any())
                 } returns responseObject
 
-                val response = entrypoint.createTicket(requestDTOV1)
+                every {
+                    request.body(TicketDTOV1::class.java)
+                } returns requestDTOV1
 
-                response.statusCode shouldBe HttpStatusCode.valueOf(200)
-                val body = response.body!!
+                val response = entrypoint.createTicket(request) as EntityResponse<TicketDTOV1>
+
+                response.statusCode() shouldBe HttpStatusCode.valueOf(200)
+                val body = response.entity()
+                body.id shouldNotBe null
+                body.ticketNumber shouldBe requestDTOV1.ticketNumber
+                body.ownerName shouldBe requestDTOV1.ownerName
+                body.ownerEmail shouldBe requestDTOV1.ownerEmail
+                body.ownerPhoneNumber shouldBe requestDTOV1.ownerPhoneNumber
+                body.shoeDescription shouldBe requestDTOV1.shoeDescription
+                body.completionDate shouldBe requestDTOV1.completionDate
+                body.status shouldBe TicketStatus.IN_PROGRESS.name
+            }
+        }
+
+        describe("Update ticket entrypoint (functional endpoint)") {
+            it("Update a ticket returns the correct response ") {
+                val requestDTOV1 =
+                    TicketDTOV1(
+                        id = UUID.randomUUID(),
+                        ticketNumber = "1",
+                        ownerName = "John Connor",
+                        ownerEmail = "terminator.target@gmail.com",
+                        ownerPhoneNumber = "1",
+                        shoeDescription = "A shoe",
+                        completionDate = OffsetDateTime.now().plusDays(3),
+                        status = "null",
+                    )
+
+                val responseObject =
+                    UpdateTicketUseCase.Response(
+                        id = UUID.randomUUID(),
+                        ticketNumber = "1",
+                        ownerName = "John Connor",
+                        ownerEmail = "terminator.target@gmail.com",
+                        ownerPhoneNumber = "1",
+                        shoeDescription = "A shoe",
+                        approxCompletionDate = requestDTOV1.completionDate,
+                        status = TicketStatus.IN_PROGRESS,
+                    )
+
+                every {
+                    updateTicketUseCase.updateTicket(any())
+                } returns responseObject
+
+                every {
+                    request.body(TicketDTOV1::class.java)
+                } returns requestDTOV1
+
+                val response = entrypoint.updateTicket(request) as EntityResponse<TicketDTOV1>
+
+                response.statusCode() shouldBe HttpStatusCode.valueOf(200)
+                val body = response.entity()
                 body.id shouldNotBe null
                 body.ticketNumber shouldBe requestDTOV1.ticketNumber
                 body.ownerName shouldBe requestDTOV1.ownerName
