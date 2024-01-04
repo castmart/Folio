@@ -7,8 +7,10 @@ import com.castmart.core.usecase.UpdateTicketUseCase
 import com.castmart.folio.details.entrypoint.TicketDTOV1
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.assertThrows
 import org.springframework.http.HttpStatusCode
 import org.springframework.web.servlet.function.EntityResponse
 import org.springframework.web.servlet.function.ServerRequest
@@ -25,7 +27,7 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
     private val request = mockk<ServerRequest>()
 
     init {
-        describe("Get a Ticket by id") {
+        describe("Get a Ticket by id (functional endpoint)") {
             it("Returns a ticket DTO v1 when the ticket is found") {
 
                 val getResponse =
@@ -61,6 +63,21 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                 body.shoeDescription shouldBe getResponse.shoeDescription
                 body.completionDate shouldBe getResponse.approxCompletionDate
                 body.status shouldBe getResponse.status.name
+            }
+
+            it("Use case throws Exception when ticket not found") {
+
+                every {
+                    getUseCase.getTicket(any())
+                } throws NoSuchElementException()
+
+                every {
+                    request.pathVariable("ticketId")
+                } returns UUID.randomUUID().toString()
+
+                assertThrows<NoSuchElementException> {
+                    entrypoint.getTicketById(request)
+                }
             }
         }
     }
