@@ -25,7 +25,7 @@ class TicketRestFunctionEntrypointV1(
     }
 
     fun createTicket(request: ServerRequest): ServerResponse {
-        val dtoV1 = request.body<TicketDTOV1>()
+        val dtoV1 = request.body(TicketDTOV1::class.java)
         val createResponse =
             createTicketUseCase.createTicket(
                 CreateTicketUseCase.Request(
@@ -44,7 +44,7 @@ class TicketRestFunctionEntrypointV1(
     }
 
     fun updateTicket(request: ServerRequest): ServerResponse {
-        val dtoV1 = request.body<TicketDTOV1>()
+        val dtoV1 = request.body(TicketDTOV1::class.java)
         val updateResponse =
             updateTicketUseCase.updateTicket(
                 ticketRequest =

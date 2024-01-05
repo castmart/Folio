@@ -8,6 +8,7 @@ import com.castmart.folio.details.entrypoint.TicketDTOV1
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.assertThrows
@@ -27,6 +28,13 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
     private val request = mockk<ServerRequest>()
 
     init {
+        beforeTest {
+            clearMocks(getUseCase)
+            clearMocks(createUseCase)
+            clearMocks(updateTicketUseCase)
+            clearMocks(request)
+        }
+
         describe("Get a Ticket by id (functional endpoint)") {
             it("Returns a ticket DTO v1 when the ticket is found") {
 
