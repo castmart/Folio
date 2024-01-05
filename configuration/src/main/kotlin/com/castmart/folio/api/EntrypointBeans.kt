@@ -12,8 +12,8 @@ import org.springframework.web.servlet.function.RouterFunction
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.router
 
+// @Profile("mvc-annotated")
 @Configuration
-//@Profile("mvc-annotated")
 class AnnotatedEntrypointBeans {
     @Bean
     fun entrypoint(
@@ -25,10 +25,9 @@ class AnnotatedEntrypointBeans {
     }
 }
 
+// @Profile("mvc-functional")
 @Configuration
-//@Profile("mvc-functional")
 class FunctionalEntrypointBeans {
-
     @Bean
     fun functionalHandler(
         getUseCase: GetATicketUseCase,
