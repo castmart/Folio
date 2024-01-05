@@ -72,6 +72,69 @@ curl http://localhost:8080/ticket/v1/[ticket id]
 curl -X POST http://localhost:8080/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"d669e186-4c10-4d4b-bd28-9d8edc2a4508", "ticketNumber":"2", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2024-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
 ```
 
-#### Phase 2. Use Functional Endpoints
+## Phase 2. Use Functional Endpoints
+
+Now, let's suppose that your team wants to change the technology that is using for exposing the http api endpoints. 
+From the well known Spring mvc Annotated controllers from the phase 1 to the new Functional Endpoints offered by the same
+mvc project (see [docs](https://docs.spring.io/spring-framework/reference/web/webmvc-functional.html) here).
+
+For the clean Architecture this is considered a detail, then all the new code should only affect the code in the `details` sun-project. 
+To do that, it has been added a new class that will be the handler of the endpoints (which will be configured in the `configuration` sub-project).
+
+```kotlin
+// Handler function in "details" sub-project.
+class TicketRestEntrypointHandlerV1 {
+  fun getTicketById(request: ServerRequest): ServerResponse
+  fun createTicket(request: ServerRequest): ServerResponse
+  fun updateTicket(request: ServerRequest): ServerResponse
+}
+```
+
+```kotlin
+// Wiring up handler functions and routes in "configuration" sub-project.
+@Configuration
+class FunctionalEntrypointBeans {
+
+  @Bean
+  fun functionalHandler(
+    getUseCase: GetATicketUseCase,
+    createTicketUseCase: CreateTicketUseCase,
+    updateTicketUseCase: UpdateTicketUseCase,
+  ): TicketRestEntrypointHandlerV1 {
+    return TicketRestEntrypointHandlerV1(createTicketUseCase, updateTicketUseCase, getUseCase)
+  }
+
+  @Bean
+  fun router(handler: TicketRestEntrypointHandlerV1): RouterFunction<ServerResponse> {
+    return router {
+      GET("/fun/ticket/v1/{ticketId}", handler::getTicketById)
+      accept(MediaType.APPLICATION_JSON).nest {
+        PUT("/fun/ticket/v1", handler::createTicket)
+        POST("/fun/ticket/v1", handler::createTicket)
+      }
+    }
+  }
+}
+```
+### How to test the functional endpoints
+
+1. Run the local database with  `docker-compose up`
+2. Execute the spring boot app with `./gradlew bootRun`
+3. To create a ticket execute the curl command:
+``` bash 
+curl -X PUT http://localhost:8080/fun/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"93BB0038-CB9D-433F-B830-FA627DE32F76", "ticketNumber":"1", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2023-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
+```
+4. To get the ticket:
+```bash 
+curl http://localhost:8080/fun/ticket/v1/[ticket id]
+```
+5. To update the ticket:
+``` bash
+curl -X POST http://localhost:8080/fun/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"d669e186-4c10-4d4b-bd28-9d8edc2a4508", "ticketNumber":"2", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2024-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
+```
+
+### Spring Functional endpoints 
+
+
 #### Phase 3. Use Reactive Stack
 #### Phase 4. Use JPA

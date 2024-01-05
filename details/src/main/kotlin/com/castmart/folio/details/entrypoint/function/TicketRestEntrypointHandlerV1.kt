@@ -11,7 +11,7 @@ import org.springframework.web.servlet.function.ServerResponse.notFound
 import org.springframework.web.servlet.function.ServerResponse.ok
 import java.util.UUID
 
-class TicketRestFunctionEntrypointV1(
+class TicketRestEntrypointHandlerV1(
     private val createTicketUseCase: CreateTicketUseCase,
     private val updateTicketUseCase: UpdateTicketUseCase,
     private val getATicketUseCase: GetATicketUseCase,

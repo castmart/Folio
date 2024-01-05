@@ -23,7 +23,7 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
     private val createUseCase = mockk<CreateTicketUseCase>()
     private val updateTicketUseCase = mockk<UpdateTicketUseCase>()
 
-    private val entrypoint = TicketRestFunctionEntrypointV1(createUseCase, updateTicketUseCase, getUseCase)
+    private val entrypoint = TicketRestEntrypointHandlerV1(createUseCase, updateTicketUseCase, getUseCase)
 
     private val request = mockk<ServerRequest>()
 
