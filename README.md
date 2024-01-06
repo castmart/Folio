@@ -43,6 +43,13 @@ Architectural principles.
 
 ## Phase 1. Use RestControllers and JdbcTemplate
 
+For the first phase, we concentrate on creating the skeleton of project and work in the most important thing, the business rules and the use cases A.K.A the policy of the system.
+As mentioned before, this code belongs to the core sub-project.
+
+For the "details" of the system, it was selected to use Spring annotated rest controllers and Jdbc templates. This code goes in the details sub-project.
+
+Finally, to put all elements together, it is used the configuration sub-project. Here it is where all the beans are created and connected.
+
 ### Test Strategy
 - We make unit tests for core and details subprojects.
   - This will use kotest and mokk to keep it simple but more adapted to the language.
@@ -74,12 +81,15 @@ curl -X POST http://localhost:8080/ticket/v1 -H 'Content-Type: application/json'
 
 ## Phase 2. Use Functional Endpoints
 
-Now, let's suppose that your team wants to change the technology that is using for exposing the http api endpoints. 
+Now, let's suppose that your team wants to change the technology that is being used for exposing the http api endpoints. 
 From the well known Spring mvc Annotated controllers from the phase 1 to the new Functional Endpoints offered by the same
 mvc project (see [docs](https://docs.spring.io/spring-framework/reference/web/webmvc-functional.html) here).
 
-For the clean Architecture this is considered a detail, then all the new code should only affect the code in the `details` sun-project. 
-To do that, it has been added a new class that will be the handler of the endpoints (which will be configured in the `configuration` sub-project).
+For the clean Architecture this is considered a detail, then all the new code should only affect the code in the `details` sun-project which allow us 
+effectively apply the Close Closure Principal (the component level brother of the Single Responsibility Principle). 
+To do that, it has been added a new class that will be the handler of the endpoints but without annotations. The only requirement
+is that the methodds should accept an instance of "ServerRequest" and return a "ServerResponse". This kind of funcitons are exposed
+through a router ("Router Function", see the following code snippets).
 
 ```kotlin
 // Handler function in "details" sub-project.
@@ -116,6 +126,14 @@ class FunctionalEntrypointBeans {
   }
 }
 ```
+### Test Strategy
+
+The strategy for testing these additional details is quite easy. It only requires:
+- Adding unit tests for the new class in the details sub-project.
+- Adding integration tests using this new technology.
+
+End to end tests should only be added in case new routes are being introduced.
+
 ### How to test the functional endpoints
 
 1. Run the local database with  `docker-compose up`
