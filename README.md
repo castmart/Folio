@@ -2,7 +2,7 @@
 
 [![Tests Workflow](https://github.com/castmart/Folio/actions/workflows/test.yaml/badge.svg)](https://github.com/castmart/Folio/actions/workflows/test.yaml)
 
-Sample project using Clean Architecture. This project is a sample ticket generator system. Which covers the use cases: 
+Sample project that implements Clean Architecture with Spring Framework. This project is a sample ticket generation and administration api. Which covers the following use cases: 
 
  - As Worker Create a new Ticket
  - As Worker or Customer track ticket status
@@ -10,17 +10,18 @@ Sample project using Clean Architecture. This project is a sample ticket generat
  - As Worker or Costumer view all the Ticket info.
 
 Beyond the functionality, it is important to concentrate on the project structure and code implementation. 
-One key motivation of this exercise is to show how to implement such Architecture using Spring boot, which most of 
+One key motivation of this exercise is to show how to implement such Architecture using Spring Framework technologies, which most of 
 the time is used to construct layered architected applications (either by package or by module).
 
-In this project I try to follow the principles exposed in the Clean Architecture Book from Bob Martin.
-Where it is claimed **"a good architecture is the one that delays the details' implementation"**.
+In this project, I try to follow the principles exposed in the Clean Architecture Book from Bob Martin.
+Where it is claimed **"a good architecture is the one that delays the details' implementation"**. Meaning that we start implementing
+our systems without committing to any specific technology. Of course, in this exercise we already selected the framework
 
 One advantage of using this architecture is that we can easily apply IoC by using interfaces in the core module and implementing them only in
 the Details module. This way it is respected that ONLY lower level components should be aware of Higher level components. And at the same time,
 as Bob Martin states, the dependencies in this architecture should point inward (see Figure 1).
 
-![Figure 1](./clean_architechture_bob_martin.png "Diagram from Book")
+![Figure 1](./clean_architecture_spring.png "Diagram from Book")
 
 The structure of the project is based on gradle submodules which will help separating the "Policy" of the Application 
 (Entities, Business and Application Rules) from the "details" (Frameworks, I/O devices and Databases).
@@ -151,8 +152,8 @@ curl http://localhost:8080/fun/ticket/v1/[ticket id]
 curl -X POST http://localhost:8080/fun/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"d669e186-4c10-4d4b-bd28-9d8edc2a4508", "ticketNumber":"2", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2024-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
 ```
 
-### Spring Functional endpoints 
-
-
 #### Phase 3. Use Reactive Stack
 #### Phase 4. Use JPA
+
+
+Die Große Bergstraße auf einem Stich der Stadt Altona von 1770
