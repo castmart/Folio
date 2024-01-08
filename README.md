@@ -21,7 +21,7 @@ One advantage of using this architecture is that we can easily apply IoC by usin
 the Details module. This way it is respected that ONLY lower level components should be aware of Higher level components. And at the same time,
 as Bob Martin states, the dependencies in this architecture should point inward (see Figure 1).
 
-![Figure 1](./clean_architecture_spring.png "Diagram from Book")
+![Figure 1](./CleanArchitectureSpring.png "Diagram from Book")
 
 The structure of the project is based on gradle submodules which will help separating the "Policy" of the Application 
 (Entities, Business and Application Rules) from the "details" (Frameworks, I/O devices and Databases).
