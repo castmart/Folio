@@ -18,9 +18,13 @@ class TicketRestEntrypointHandlerV1(
 ) {
     fun getTicketById(request: ServerRequest): ServerResponse {
         val ticketId = UUID.fromString(request.pathVariable("ticketId"))
-        return getATicketUseCase.getTicket(ticketId).let {
-            ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromGetResponse(it))
-        } ?: notFound().build()
+        return try {
+            getATicketUseCase.getTicket(ticketId).let {
+                ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromGetResponse(it))
+            } ?: notFound().build()
+        } catch (e: NoSuchElementException) {
+            notFound().build()
+        }
     }
 
     fun createTicket(request: ServerRequest): ServerResponse {

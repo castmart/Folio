@@ -66,5 +66,14 @@ class TicketRestFunctionalEntrypointV1Test(
                     // ... Check the content
                 }
             }
+
+            it("Returns 404 when ticket not found") {
+                mockMvc.get("$v1Path/${UUID.randomUUID()}") {
+                    header("Accept", "*/*")
+                }.andExpect {
+                    status { isNotFound() }
+                    // ... check no content
+                }
+            }
         }
     })
