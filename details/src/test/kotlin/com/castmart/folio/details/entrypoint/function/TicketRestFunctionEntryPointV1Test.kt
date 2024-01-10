@@ -83,9 +83,9 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                     request.pathVariable("ticketId")
                 } returns UUID.randomUUID().toString()
 
-                assertThrows<NoSuchElementException> {
-                    entrypoint.getTicketById(request)
-                }
+
+                val response = entrypoint.getTicketById(request)
+                response.statusCode() shouldBe HttpStatusCode.valueOf(404)
             }
         }
 
