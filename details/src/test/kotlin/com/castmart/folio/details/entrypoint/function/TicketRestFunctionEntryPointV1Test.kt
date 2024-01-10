@@ -11,7 +11,6 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.assertThrows
 import org.springframework.http.HttpStatusCode
 import org.springframework.web.servlet.function.EntityResponse
 import org.springframework.web.servlet.function.ServerRequest
@@ -82,7 +81,6 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                 every {
                     request.pathVariable("ticketId")
                 } returns UUID.randomUUID().toString()
-
 
                 val response = entrypoint.getTicketById(request)
                 response.statusCode() shouldBe HttpStatusCode.valueOf(404)
