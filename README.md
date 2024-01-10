@@ -155,5 +155,3 @@ curl -X POST http://localhost:8080/fun/ticket/v1 -H 'Content-Type: application/j
 #### Phase 3. Use Reactive Stack
 #### Phase 4. Use JPA
 
-
-Die Große Bergstraße auf einem Stich der Stadt Altona von 1770
