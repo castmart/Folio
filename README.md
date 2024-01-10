@@ -131,7 +131,7 @@ class FunctionalEntrypointBeans {
 
 The strategy for testing these additional details is quite easy. It only requires:
 - Adding unit tests for the new class in the details sub-project.
-- Adding integration tests using this new technology.
+- Adding e2e tests using this new technology.
 
 End to end tests should only be added in case new routes are being introduced.
 
