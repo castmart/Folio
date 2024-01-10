@@ -43,7 +43,7 @@ class FunctionalEntrypointBeans {
             GET("/fun/ticket/v1/{ticketId}", handler::getTicketById)
             accept(MediaType.APPLICATION_JSON).nest {
                 PUT("/fun/ticket/v1", handler::createTicket)
-                POST("/fun/ticket/v1", handler::createTicket)
+                POST("/fun/ticket/v1", handler::updateTicket)
             }
         }
     }

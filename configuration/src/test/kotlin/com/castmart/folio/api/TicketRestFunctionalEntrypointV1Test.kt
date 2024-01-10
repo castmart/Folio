@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
@@ -121,6 +122,75 @@ class TicketRestFunctionalEntrypointV1Test(
                         """
                         { 
                             "id": "${UUID.randomUUID()}",
+                            "ticketNumber": "0001",
+                            "ownerName": "Juan",
+                            "ownerEmail": "email@email.com",
+                            "ownerPhoneNumber": "01800123",
+                            "showDescription": "shoe",
+                            "completionDate": "2040-12-12T00:00:00.000Z",
+                            "status": "INVALID_STATE"
+                        }
+                        """.trimIndent()
+                }.andExpect {
+                    status { isBadRequest() }
+                }
+            }
+        }
+
+        describe("Update ticket") {
+            val existingTicket =
+                Ticket(
+                    id = ticketId,
+                    ticketNumber = "0001",
+                    ownerName = "John Connor",
+                    ownerEmail = "connor.john@skynet.com",
+                    ownerPhoneNumber = "01800-123-456",
+                    shoeDescription = "Show Description",
+                    completionDate = OffsetDateTime.now(ZoneOffset.UTC).plusDays(1),
+                    status = TicketStatus.IN_PROGRESS,
+                )
+
+            beforeEach {
+                jdbcTemplate.update("delete from ticket", MapSqlParameterSource())
+                jdbcTicketRepository.save(
+                    existingTicket,
+                )
+            }
+
+            it("Updates correctly an existing ticket") {
+                val updateRequest =
+                    Ticket(
+                        id = existingTicket.id,
+                        ticketNumber = "T-8000",
+                        ownerName = "Terminator",
+                        ownerEmail = "t1000.arnold@skynet.com",
+                        ownerPhoneNumber = "011000001",
+                        shoeDescription = "No shoes required",
+                        completionDate = OffsetDateTime.now(ZoneOffset.UTC).plusDays(3),
+                        status = TicketStatus.READY_FOR_PICKUP,
+                    )
+                mockMvc.post(v1Path) {
+                    contentType = MediaType.APPLICATION_JSON
+                    content = objectMapper.writeValueAsString(updateRequest)
+                }.andExpect {
+                    status { isOk() }
+                    jsonPath("$.id") { value(updateRequest.id.toString()) }
+                    jsonPath("$.ticketNumber") { value(updateRequest.ticketNumber) }
+                    jsonPath("$.ownerName") { value(updateRequest.ownerName) }
+                    jsonPath("$.ownerEmail") { value(updateRequest.ownerEmail) }
+                    jsonPath("$.ownerPhoneNumber") { value(updateRequest.ownerPhoneNumber) }
+                    jsonPath("$.shoeDescription") { value(updateRequest.shoeDescription) }
+                    jsonPath("$.status") { value(updateRequest.status.name) }
+                }
+            }
+
+            it("Returns 400 on invalid state") {
+                mockMvc.post(v1Path) {
+                    contentType = MediaType.APPLICATION_JSON
+                    content =
+                        """
+                        { 
+                            "id": "${existingTicket.id}",
                             "ticketNumber": "0001",
                             "ownerName": "Juan",
                             "ownerEmail": "email@email.com",
