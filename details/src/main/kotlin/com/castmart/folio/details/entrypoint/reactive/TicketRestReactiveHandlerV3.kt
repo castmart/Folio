@@ -1,4 +1,4 @@
-package com.castmart.folio.details.entrypoint.function
+package com.castmart.folio.details.entrypoint.reactive
 
 import com.castmart.core.usecase.CreateTicketUseCase
 import com.castmart.core.usecase.GetATicketUseCase
@@ -7,11 +7,9 @@ import com.castmart.folio.details.entrypoint.TicketDTOV1
 import org.springframework.http.MediaType
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
-import org.springframework.web.servlet.function.ServerResponse.notFound
-import org.springframework.web.servlet.function.ServerResponse.ok
 import java.util.UUID
 
-class TicketRestEntrypointHandlerV1(
+class TicketRestReactiveHandlerV3(
     private val createTicketUseCase: CreateTicketUseCase,
     private val updateTicketUseCase: UpdateTicketUseCase,
     private val getATicketUseCase: GetATicketUseCase,
@@ -20,10 +18,10 @@ class TicketRestEntrypointHandlerV1(
         val ticketId = UUID.fromString(request.pathVariable("ticketId"))
         return try {
             getATicketUseCase.getTicket(ticketId).let {
-                ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromGetResponse(it))
-            } ?: notFound().build()
+                ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromGetResponse(it))
+            } ?: ServerResponse.notFound().build()
         } catch (e: NoSuchElementException) {
-            notFound().build()
+            ServerResponse.notFound().build()
         }
     }
 
@@ -42,7 +40,7 @@ class TicketRestEntrypointHandlerV1(
             )
 
         return createResponse.let {
-            ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromCreateResponse(it))
+            ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromCreateResponse(it))
         }
     }
 
@@ -64,7 +62,7 @@ class TicketRestEntrypointHandlerV1(
             )
 
         return updateResponse.let {
-            ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromUpdateResponse(it))
+            ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(TicketDTOV1.fromUpdateResponse(it))
         }
     }
 }

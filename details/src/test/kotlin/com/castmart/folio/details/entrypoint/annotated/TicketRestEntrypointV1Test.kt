@@ -1,4 +1,4 @@
-package com.castmart.folio.details.entrypoint.function
+package com.castmart.folio.details.entrypoint.annotated
 
 import com.castmart.core.entity.TicketStatus
 import com.castmart.core.usecase.CreateTicketUseCase
@@ -8,33 +8,29 @@ import com.castmart.folio.details.entrypoint.TicketDTOV1
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
+import org.junit.jupiter.api.assertThrows
 import org.springframework.http.HttpStatusCode
-import org.springframework.web.servlet.function.EntityResponse
-import org.springframework.web.servlet.function.ServerRequest
 import java.time.OffsetDateTime
 import java.util.UUID
 
-class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
+class TicketRestEntrypointV1Test : DescribeSpec() {
     private val getUseCase = mockk<GetATicketUseCase>()
     private val createUseCase = mockk<CreateTicketUseCase>()
     private val updateTicketUseCase = mockk<UpdateTicketUseCase>()
 
-    private val entrypoint = TicketRestEntrypointHandlerV1(createUseCase, updateTicketUseCase, getUseCase)
-
-    private val request = mockk<ServerRequest>()
+    private val entrypoint =
+        TicketRestEntrypointV1(
+            getATicketUseCase = getUseCase,
+            updateTicketUseCase = updateTicketUseCase,
+            createTicketUseCase = createUseCase,
+        )
 
     init {
-        beforeTest {
-            clearMocks(getUseCase)
-            clearMocks(createUseCase)
-            clearMocks(updateTicketUseCase)
-            clearMocks(request)
-        }
 
-        describe("Get a Ticket by id (functional endpoint)") {
+        describe("Get a ticket by id") {
+
             it("Returns a ticket DTO v1 when the ticket is found") {
 
                 val getResponse =
@@ -53,15 +49,10 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                     getUseCase.getTicket(getResponse.id)
                 } returns getResponse
 
-                every {
-                    request.pathVariable("ticketId")
-                } returns getResponse.id.toString()
+                val response = entrypoint.getTicketById(getResponse.id)
 
-                val response = entrypoint.getTicketById(request) as EntityResponse<TicketDTOV1>
-
-                response.statusCode() shouldBe HttpStatusCode.valueOf(200)
-                val body = response.entity()
-
+                response.statusCode shouldBe HttpStatusCode.valueOf(200)
+                val body = response.body!!
                 body.id shouldBe getResponse.id
                 body.ticketNumber shouldBe getResponse.ticketNumber
                 body.ownerName shouldBe getResponse.ownerName
@@ -71,23 +62,19 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                 body.completionDate shouldBe getResponse.approxCompletionDate
                 body.status shouldBe getResponse.status.name
             }
-
             it("Use case throws Exception when ticket not found") {
 
                 every {
                     getUseCase.getTicket(any())
                 } throws NoSuchElementException()
 
-                every {
-                    request.pathVariable("ticketId")
-                } returns UUID.randomUUID().toString()
-
-                val response = entrypoint.getTicketById(request)
-                response.statusCode() shouldBe HttpStatusCode.valueOf(404)
+                assertThrows<NoSuchElementException> {
+                    entrypoint.getTicketById(UUID.randomUUID())
+                }
             }
         }
 
-        describe("Create ticket entrypoint (functional endpoint)") {
+        describe("Create ticket entrypoint") {
             it("Creates a ticket returns the correct response and code ticket ") {
                 val requestDTOV1 =
                     TicketDTOV1(
@@ -117,14 +104,10 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                     createUseCase.createTicket(any())
                 } returns responseObject
 
-                every {
-                    request.body(TicketDTOV1::class.java)
-                } returns requestDTOV1
+                val response = entrypoint.createTicket(requestDTOV1)
 
-                val response = entrypoint.createTicket(request) as EntityResponse<TicketDTOV1>
-
-                response.statusCode() shouldBe HttpStatusCode.valueOf(200)
-                val body = response.entity()
+                response.statusCode shouldBe HttpStatusCode.valueOf(200)
+                val body = response.body!!
                 body.id shouldNotBe null
                 body.ticketNumber shouldBe requestDTOV1.ticketNumber
                 body.ownerName shouldBe requestDTOV1.ownerName
@@ -136,7 +119,7 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
             }
         }
 
-        describe("Update ticket entrypoint (functional endpoint)") {
+        describe("Update ticket entrypoint") {
             it("Update a ticket returns the correct response ") {
                 val requestDTOV1 =
                     TicketDTOV1(
@@ -166,14 +149,10 @@ class TicketRestFunctionEntryPointV1Test : DescribeSpec() {
                     updateTicketUseCase.updateTicket(any())
                 } returns responseObject
 
-                every {
-                    request.body(TicketDTOV1::class.java)
-                } returns requestDTOV1
+                val response = entrypoint.updateTicket(requestDTOV1)
 
-                val response = entrypoint.updateTicket(request) as EntityResponse<TicketDTOV1>
-
-                response.statusCode() shouldBe HttpStatusCode.valueOf(200)
-                val body = response.entity()
+                response.statusCode shouldBe HttpStatusCode.valueOf(200)
+                val body = response.body!!
                 body.id shouldNotBe null
                 body.ticketNumber shouldBe requestDTOV1.ticketNumber
                 body.ownerName shouldBe requestDTOV1.ownerName

@@ -1,8 +1,10 @@
-package com.castmart.folio.details.entrypoint
+package com.castmart.folio.details.entrypoint.annotated
 
 import com.castmart.core.usecase.CreateTicketUseCase
 import com.castmart.core.usecase.GetATicketUseCase
 import com.castmart.core.usecase.UpdateTicketUseCase
+import com.castmart.folio.details.entrypoint.ErrorDto
+import com.castmart.folio.details.entrypoint.TicketDTOV1
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler

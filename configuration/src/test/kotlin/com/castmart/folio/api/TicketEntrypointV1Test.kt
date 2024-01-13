@@ -3,7 +3,7 @@ package com.castmart.folio.api
 import com.castmart.core.entity.Ticket
 import com.castmart.core.entity.TicketStatus
 import com.castmart.core.port.TicketRepository
-import com.castmart.folio.details.entrypoint.TicketRestEntrypointV1
+import com.castmart.folio.details.entrypoint.annotated.TicketRestEntrypointV1
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.spring.SpringExtension
