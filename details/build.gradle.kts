@@ -14,15 +14,11 @@ dependencies {
     api(libs.spring.mvc) {
         because("Should be provided in the configurations module through spring boot")
     }
-    api(libs.project.reactor) {
-        because("Should be provided in the configurations module through spring boot webflux")
-    }
     api("jakarta.servlet:jakarta.servlet-api")
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest)
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.mockk)
-    testImplementation(libs.project.reactor.test)
 }
 
 tasks.test {
