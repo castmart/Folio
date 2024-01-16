@@ -9,7 +9,6 @@ dependencies {
     implementation(project(":details"))
 
     implementation(libs.spring.boot.mvc)
-    implementation(libs.spring.boot.webflux)
 
     implementation(libs.spring.boot.jdbc)
     implementation(libs.postgres.jdbc)
