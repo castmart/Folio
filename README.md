@@ -118,10 +118,10 @@ class FunctionalEntrypointBeans {
   @Bean
   fun router(handler: TicketRestEntrypointHandlerV1): RouterFunction<ServerResponse> {
     return router {
-      GET("/fun/ticket/v1/{ticketId}", handler::getTicketById)
+      GET("/ticket/v2/{ticketId}", handler::getTicketById)
       accept(MediaType.APPLICATION_JSON).nest {
-        PUT("/fun/ticket/v1", handler::createTicket)
-        POST("/fun/ticket/v1", handler::createTicket)
+        PUT("/ticket/v2", handler::createTicket)
+        POST("/ticket/v2", handler::createTicket)
       }
     }
   }
@@ -151,7 +151,4 @@ curl http://localhost:8080/fun/ticket/v1/[ticket id]
 ``` bash
 curl -X POST http://localhost:8080/fun/ticket/v1 -H 'Content-Type: application/json' -d '{"id":"d669e186-4c10-4d4b-bd28-9d8edc2a4508", "ticketNumber":"2", "ownerName": "Juan", "ownerEmail":"email", "ownerPhoneNumber": "01", "shoeDescription": "A shoe", "completionDate": "2024-12-31T00:00:00.000+0200", "status": "IN_PROGRESS" }'
 ```
-
-#### Phase 3. Use Reactive Stack
-#### Phase 4. Use JPA
 
