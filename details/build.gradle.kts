@@ -22,6 +22,7 @@ dependencies {
     testImplementation(libs.kotest)
     testImplementation(libs.kotest.assertions)
     testImplementation(libs.mockk)
+    testImplementation(libs.project.reactor.test)
 }
 
 tasks.test {

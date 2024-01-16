@@ -41,7 +41,7 @@ class TicketRestFunctionalEntrypointV1Test(
         // One container for all this Test Spec
         extension(jdbcContainerExtension) // Important!! to handle the test lifecycle
 
-        val v1Path = "/fun/ticket/v1"
+        val v1Path = "/ticket/v2"
         val ticketId = UUID.randomUUID()
 
         describe("Get a ticket by id") {

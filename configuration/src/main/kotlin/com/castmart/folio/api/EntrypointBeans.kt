@@ -40,10 +40,10 @@ class FunctionalEntrypointBeans {
     @Bean
     fun router(handler: TicketRestFunctionHandlerV2): RouterFunction<ServerResponse> {
         return router {
-            GET("/fun/ticket/v1/{ticketId}", handler::getTicketById)
+            GET("/ticket/v2/{ticketId}", handler::getTicketById)
             accept(MediaType.APPLICATION_JSON).nest {
-                PUT("/fun/ticket/v1", handler::createTicket)
-                POST("/fun/ticket/v1", handler::updateTicket)
+                PUT("/ticket/v2", handler::createTicket)
+                POST("/ticket/v2", handler::updateTicket)
             }
         }
     }

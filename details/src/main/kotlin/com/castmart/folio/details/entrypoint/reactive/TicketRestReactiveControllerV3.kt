@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono
 import java.util.UUID
 
 @RestController
-@RequestMapping("/ticket/v1")
+@RequestMapping("/ticket/v3")
 class TicketRestReactiveControllerV3(
     private val createTicketUseCase: CreateTicketUseCase,
     private val updateTicketUseCase: UpdateTicketUseCase,
