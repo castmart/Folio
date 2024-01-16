@@ -15,6 +15,7 @@ unit-tests:
 	./gradlew :core:test :details:test
 
 .PHONY: integration-tests
+integration-tests:
 	./gradlew :integration-tests:test
 
 .PHONY: e2e-tests
